@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ImagetoBase64 } from "../utility/ImagetoBase64";
 import { BiShow, BiHide } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -35,6 +36,10 @@ function Signup() {
     });
   };
 
+  const handleUploadProfileImage = async(e)=>{
+    const data = await ImagetoBase64(e.target.files[0])
+  }
+
   
 console.log(process.env.REACT_APP_SERVER_DOMIN)
   const handleSubmit = async(e) => {
@@ -42,6 +47,8 @@ console.log(process.env.REACT_APP_SERVER_DOMIN)
     const { firstName, email, password, confirmPassword } = data;
     if (firstName && email && password && confirmPassword) {
       if (password === confirmPassword) {
+        alert("successfull");
+        navigate("/login");
     
           const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/signup`,{
             method : "POST",
@@ -55,7 +62,7 @@ console.log(process.env.REACT_APP_SERVER_DOMIN)
     
 
         // alert(dataRes.message);
-        // toast(dataRes.message)
+        // // toast(dataRes.message)
         // if(dataRes.alert){
         //   navigate("/login");
         // }
@@ -73,7 +80,7 @@ console.log(process.env.REACT_APP_SERVER_DOMIN)
       <div className="w-full max-w-sm bg-white m-auto flex  flex-col p-4">
         {/* <h1 className='text-center text-2xl font-bold'>Sign up</h1> */}
         <div className="w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative ">
-
+        <img src="" className="w-full"/>
           <label htmlFor="profileImage">
             <div className="absolute bottom-0 h-1/3  bg-green-500 bg-opacity-50 w-full text-center cursor-pointer">
               <p className="text-sm p-1 text-white">Upload</p>
@@ -154,7 +161,7 @@ console.log(process.env.REACT_APP_SERVER_DOMIN)
           </button>
         </form>
         <p className="text-left text-sm mt-2">
-          Already have account ?{" "}
+          Already have an account ?{" "}
           <Link to={"/login"} className="text-green-500 underline">
             Login
           </Link>
